@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import styled from 'styled-components'
-import MenuItem from './components/MenuItem';
+
+import Savings from './pages/high-interest-savings'
+import Trade from './pages/trade'
+import MenuList from './pages/menu-list'
+import LPs from './pages/liquidity-pools'
 
 function App() {
 
@@ -64,33 +69,21 @@ function App() {
         {!currentAccount && renderNotConnectedContainer()}
       </HeaderContainer>
 
-      aasdfasdf
-      aasdfasdfasdf
 
-      <MenuList>
-        <MenuItem />
-        <MenuItem />
-      </MenuList>
-
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MenuList />} />
+          <Route path="/savings" element={<Savings />} />
+          <Route path="/trade" element={<Trade />} />
+          <Route path="/liquidity-pools" element={<LPs />} />
+        </Routes>
+      </BrowserRouter>
 
     </div>
   );
 }
 
 export default App;
-
-
-
-
-const MenuList = styled.div`
-  justify-content: center;
-  display: flex;
-  /* justify-content: space-between; */
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
-`
-
 
 
 const HeaderContainer = styled.div`

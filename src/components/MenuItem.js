@@ -2,20 +2,17 @@ import React from 'react'
 import styled from "styled-components"
 
 
-export default function MenuItem() {
+export default function MenuItem(props) {
     return (
         <Container>
 
             <div>
-                <img src="/images/dollar.png" height="70" />
+                <img src={props.image} height="70" />
             </div>
 
             <TextPart>
-                <MenuTitle>High Interest Savings</MenuTitle>
-                <div>
-                    Deposit your funds to start earning interest. Interest rates are much better in Decentralized Finance.
-                </div>
-
+                <MenuTitle>{props.title}</MenuTitle>
+                <div> {props.desc} </div>
             </TextPart>
         </Container>
     )
@@ -36,8 +33,7 @@ const Container = styled.div`
   border-radius: 30px;
   padding: 20px 40px;
   align-items: center;
-  min-width: 400px;
-  max-width: 700px;
+  width: 700px;
   display: flex;
   cursor: pointer;
   box-shadow:  5px 4px 5px #e8e8e8;
@@ -45,3 +41,10 @@ const Container = styled.div`
   margin-bottom: 30px;
 
 `
+
+MenuItem.defaultProps = {
+    image: "/images/gateway.svg",
+    title: "Invest in this thing",
+    desc: "Always do your own research. "
+
+}
