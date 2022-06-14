@@ -1,29 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
 import styled from 'styled-components'
 
+//redux stuff
+import { useSelector, useDispatch } from 'react-redux';
+import { setAccount } from './state/accountSlice';
+
+//import pages (routes)
 import Savings from './pages/high-interest-savings'
 import Trade from './pages/trade'
 import MenuList from './pages/menu-list'
 import LPs from './pages/liquidity-pools'
 
+//utils
+import { checkWallet } from './utils/wallet'
+
+
+
 function App() {
 
   const [currentAccount, setCurrentAccount] = useState('');
 
+  const { account } = useSelector((state) => state.account)
+  console.log(account)
+
   const connectWallet = async () => {
     try {
       const metamask = window.ethereum;
-
       if (!metamask) {
         alert("Metamask not found. Please get it from the Chrome webstore");
         return;
       }
 
       const accounts = await metamask.request({ method: "eth_requestAccounts" });
-
       console.log("connected with: ", accounts[0]);
       setCurrentAccount(accounts[0])
 
@@ -34,21 +44,10 @@ function App() {
 
 
   useEffect(() => {
-    checkIfWalletIsConnected();
+    // checkIfWalletIsConnected();
+    checkWallet();
+
   }, [])
-
-  // just checks to see if metamask is installed
-  const checkIfWalletIsConnected = async () => {
-    const metamask = window.ethereum;
-
-    if (!metamask) {
-      console.log('Make sure you have metamask!');
-      return;
-    } else {
-      console.log('Metamask (injected wallet) detected', metamask);
-    }
-  }
-
 
   const renderNotConnectedContainer = () => (
     <div className="connect-wallet-container">
@@ -68,7 +67,6 @@ function App() {
         {/* show "connect wallet" if no wallet is connected */}
         {!currentAccount && renderNotConnectedContainer()}
       </HeaderContainer>
-
 
       <BrowserRouter>
         <Routes>
